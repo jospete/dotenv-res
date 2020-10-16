@@ -1,0 +1,41 @@
+{
+  "name": "dotenv-res",
+  "version": "0.0.1",
+  "description": "Yet another dotenv syncing utility",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jospete/dotenv-res.git"
+  },
+  "keywords": [
+    "dotenv",
+    "generate",
+    "generator",
+    "ts",
+    "cli",
+    "typescript",
+    "json"
+  ],
+  "author": "Josh Noel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jospete/dotenv-res/issues"
+  },
+  "homepage": "https://github.com/jospete/dotenv-res#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fs-extra": "^9.0.1",
+    "lodash": "^4.17.20",
+    "yargs": "^16.1.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/lodash": "^4.14.162",
+    "@types/yargs": "^15.0.9",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}

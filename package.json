@@ -4,7 +4,8 @@
   "description": "Yet another dotenv syncing utility",
   "main": "dist/index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",

@@ -1,1 +1,3 @@
-console.log('Main Test ***');
+import { buildDotEnvResCLI } from './cli';
+
+buildDotEnvResCLI().parse();

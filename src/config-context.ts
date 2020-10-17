@@ -39,7 +39,11 @@ export const parseConfigContextFromJson = (rawJsonConfig: any): DotEnvConfigCont
 	const { entries } = (rawJsonConfig || {});
 
 	forEach(entries, ({ type, defaultValue }, name) => {
-		result.entries.push({ name, type, defaultValue });
+		result.entries.push({
+			name,
+			type,
+			defaultValue: coerceDotEnvConfigVariableType(type, defaultValue)
+		});
 	});
 
 	return result;

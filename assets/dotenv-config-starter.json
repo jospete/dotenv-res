@@ -1,3 +1,9 @@
 {
-	"$schema": "./node_modules/dotenv-res/assets/dotenv-config-schema.json"
+	"$schema": "./dotenv-config-schema.json",
+	"entries": {
+		"EXAMPLE": {
+			"type": "boolean",
+			"default": false
+		}
+	}
 }

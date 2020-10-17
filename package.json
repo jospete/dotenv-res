@@ -4,7 +4,7 @@
   "description": "Yet another dotenv syncing utility",
   "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
+    "start": "ts-node ./src/cli.ts",
     "test": "test",
     "build": "tsc"
   },

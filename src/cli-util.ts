@@ -1,9 +1,13 @@
-import { sep } from 'path';
+import { sep, resolve, join } from 'path';
 import { compile as compileHandlebarsTemplate } from 'handlebars';
 import { copySync, existsSync, readFileSync, writeFileSync } from 'fs-extra';
 import { forEach, defaults, map } from 'lodash';
 
-import { getAssetPath, parseConfigContext, parseDotEnvJson, toDotEnvPair } from './util';
+import { parseConfigContext, parseDotEnvJson, toDotEnvPair } from './util';
+
+export const getAssetPath = (relativeAssetPath: string): string => {
+	return resolve(join('node_modules/dotenv-res/assets', relativeAssetPath));
+};
 
 export const initializeDotEnvConfigFile = () => {
 
@@ -34,7 +38,7 @@ export const syncDotEnvWithConfig = (configFilePath: string, dotEnvFilePath: str
 
 export const generateAppEnvTs = (configFilePath: string, outputFilePath: string) => {
 	const context = parseConfigContext(configFilePath);
-	const handlebarsTemplateText = readFileSync(getAssetPath('app.ent.ts.hbs'), 'utf8');
+	const handlebarsTemplateText = readFileSync(getAssetPath('app.env.ts.hbs'), 'utf8');
 	const render = compileHandlebarsTemplate(handlebarsTemplateText, { noEscape: true });
 	writeFileSync(outputFilePath, render(context), 'utf8');
 };

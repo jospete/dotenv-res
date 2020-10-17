@@ -1,13 +1,8 @@
-import { join, resolve } from 'path';
 import { parse as parseDotEnvText } from 'dotenv';
 import { readJsonSync, readFileSync } from 'fs-extra';
 import { toString, isString } from 'lodash';
 
 import { DotEnvConfigContext, parseConfigContextFromJson } from './config-context';
-
-export const getAssetPath = (relativeAssetPath: string): string => {
-	return resolve(join('node_modules/dotenv-res/assets', relativeAssetPath));
-};
 
 export const parseConfigContext = (configFilePath: string): DotEnvConfigContext => {
 	return parseConfigContextFromJson(readJsonSync(configFilePath));

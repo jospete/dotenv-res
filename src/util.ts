@@ -12,3 +12,11 @@ export const initializeDotEnvConfigFile = () => {
 	const assetPath = './node_modules/dotenv-res/assets/dotenv-config-starter.json';
 	copySync(assetPath, outputPath);
 };
+
+export const syncDotEnvWithConfig = (configFilePath: string, dotEnvFilePath: string) => {
+
+};
+
+export const generateAppEnvTs = (configFilePath: string, outputFilePath: string) => {
+
+};

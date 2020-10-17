@@ -1,3 +1,3 @@
-import { buildDotEnvResCLI } from './cli-util';
+import { buildDotEnvResCLI } from './cli-config';
 
 buildDotEnvResCLI().parse();

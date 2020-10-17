@@ -1,45 +1,40 @@
-import * as yargs from 'yargs';
-import { noop } from 'lodash';
+import { sep } from 'path';
+import { compile as compileHandlebarsTemplate } from 'handlebars';
+import { copySync, existsSync, readFileSync, writeFileSync } from 'fs-extra';
+import { forEach, defaults, map } from 'lodash';
 
-import {
-	generateAppEnvTs,
-	initializeDotEnvConfigFile,
-	syncDotEnvWithConfig
-} from './util';
+import { getAssetPath, parseConfigContext, parseDotEnvJson, toDotEnvPair } from './util';
 
-export const buildDotEnvResCLI = () => yargs
-	.showHelpOnFail(true)
-	.wrap(null)
-	.option('config', {
-		type: 'string',
-		description: 'path to dotenv config json file',
-		default: './dotenv.config.json'
-	})
-	.command(
-		'init',
-		'generate a new donenv config JSON file to start implementing variable declarations',
-		noop,
-		() => initializeDotEnvConfigFile()
-	)
-	.command(
-		'sync',
-		'add any new declarations from the config json file into the current .env file',
-		subYargs => subYargs
-			.option('target', {
-				type: 'string',
-				description: 'the target .env file to merge with, or the path to create a new .env file at',
-				default: './.env'
-			}),
-		({ config, target }) => syncDotEnvWithConfig(config, target)
-	)
-	.command(
-		'ts',
-		'generate or regenerate a typescript wrapper class for the current dotenv configuration',
-		subYargs => subYargs
-			.option('output', {
-				type: 'string',
-				description: 'output path for the resulting ts file',
-				default: './src/app.env.ts'
-			}),
-		({ config, output }) => generateAppEnvTs(config, output)
-	);
+export const initializeDotEnvConfigFile = () => {
+
+	const outputPath = './dotenv.config.json';
+
+	if (existsSync(outputPath)) {
+		console.warn('output file already exists: ' + outputPath);
+		return;
+	}
+
+	const assetPath = getAssetPath('dotenv-config-starter.json');
+	copySync(assetPath, outputPath);
+};
+
+export const syncDotEnvWithConfig = (configFilePath: string, dotEnvFilePath: string) => {
+
+	const context = parseConfigContext(configFilePath);
+	const dotEnvJson = parseDotEnvJson(dotEnvFilePath);
+	const addons: any = {};
+
+	forEach(context.entries, entry => {
+		addons[entry.name] = entry.defaultValue;
+	});
+
+	const output = map(defaults(dotEnvJson, addons), toDotEnvPair).join(sep);
+	writeFileSync(dotEnvFilePath, output, 'utf8');
+};
+
+export const generateAppEnvTs = (configFilePath: string, outputFilePath: string) => {
+	const context = parseConfigContext(configFilePath);
+	const handlebarsTemplateText = readFileSync(getAssetPath('app.ent.ts.hbs'), 'utf8');
+	const render = compileHandlebarsTemplate(handlebarsTemplateText, { noEscape: true });
+	writeFileSync(outputFilePath, render(context), 'utf8');
+};

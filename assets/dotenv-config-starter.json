@@ -3,7 +3,7 @@
 	"entries": {
 		"EXAMPLE": {
 			"type": "boolean",
-			"default": false
+			"defaultValue": false
 		}
 	}
 }

@@ -11,7 +11,7 @@
 						"boolean"
 					]
 				},
-				"default": {
+				"defaultValue": {
 					"oneOf": [
 						{
 							"type": "string"
@@ -27,7 +27,7 @@
 			},
 			"required": [
 				"type",
-				"default"
+				"defaultValue"
 			]
 		}
 	},

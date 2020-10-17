@@ -1,4 +1,5 @@
-import { copySync, existsSync } from 'fs-extra';
+import { copySync, existsSync, readJsonSync } from 'fs-extra';
+import { DotEnvConfigContext, parseConfigContextFromJson } from './config-context';
 
 export const initializeDotEnvConfigFile = () => {
 
@@ -11,6 +12,10 @@ export const initializeDotEnvConfigFile = () => {
 
 	const assetPath = './node_modules/dotenv-res/assets/dotenv-config-starter.json';
 	copySync(assetPath, outputPath);
+};
+
+export const parseConfigContext = (configFilePath: string): DotEnvConfigContext => {
+	return parseConfigContextFromJson(readJsonSync(configFilePath));
 };
 
 export const syncDotEnvWithConfig = (configFilePath: string, dotEnvFilePath: string) => {

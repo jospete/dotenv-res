@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Yet another dotenv syncing utility",
   "main": "dist/index.js",
+  "bin": {
+    "dotenv-res": "./cli.js"
+  },
   "scripts": {
     "start": "ts-node ./src/cli.ts",
     "test": "test",

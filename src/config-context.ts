@@ -1,4 +1,4 @@
-import { toString, toNumber, toLower, some, forEach } from 'lodash';
+import { toString, toNumber, toLower, some, forEach, camelCase } from 'lodash';
 
 export enum DotEnvConfigVariableType {
 	string = 'string',
@@ -10,11 +10,15 @@ export interface DotEnvConfigVariableEntry {
 	name: string;
 	type: DotEnvConfigVariableType;
 	defaultValue: string | boolean | number;
+	coerceFunctionName: string;
+	nameCamelCase: string;
 }
 
 export interface DotEnvConfigContext {
 	entries: DotEnvConfigVariableEntry[];
 }
+
+export { toString, toNumber };
 
 export const toBoolean = (value: any): boolean => {
 	const normalized = toLower(toString(value));
@@ -33,6 +37,18 @@ export const coerceDotEnvConfigVariableType = (type: DotEnvConfigVariableType, v
 	}
 };
 
+export const getDotEnvTypeCoerceFunctionName = (type: DotEnvConfigVariableType): string => {
+	switch (type) {
+		case DotEnvConfigVariableType.boolean:
+			return 'toBoolean';
+		case DotEnvConfigVariableType.number:
+			return 'toNumber';
+		case DotEnvConfigVariableType.string:
+		default:
+			return 'toString';
+	}
+};
+
 export const parseConfigContextFromJson = (rawJsonConfig: any): DotEnvConfigContext => {
 
 	const result: DotEnvConfigContext = { entries: [] };
@@ -42,6 +58,8 @@ export const parseConfigContextFromJson = (rawJsonConfig: any): DotEnvConfigCont
 		result.entries.push({
 			name,
 			type,
+			nameCamelCase: camelCase(name),
+			coerceFunctionName: getDotEnvTypeCoerceFunctionName(type),
 			defaultValue: coerceDotEnvConfigVariableType(type, defaultValue)
 		});
 	});
